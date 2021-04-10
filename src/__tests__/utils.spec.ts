@@ -92,9 +92,9 @@ describe("utils", () => {
         },
         [secondCurr]: {
           openingPrice,
-          currentPrice: currentPrice + 1,
+          currentPrice,
           priceIncrease,
-          priceIncreasePercent,
+          priceIncreasePercent: priceIncreasePercent + 1,
         },
       };
       const rows = createRows(data);

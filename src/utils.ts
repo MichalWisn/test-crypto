@@ -105,10 +105,10 @@ export const createRows = (data: CoinStats): GridRowModel[] =>
       symbol,
       ...stats,
     }))
-    // default sort by price (increasing)
+    // default sort by price increase (increasing)
     .sort(
       (
-        { currentPrice: currentPriceFirst },
-        { currentPrice: currentPriceSecond }
-      ) => currentPriceSecond - currentPriceFirst
+        { priceIncreasePercent: priceIncreasePercentFirst },
+        { priceIncreasePercent: priceIncreasePercentSecond }
+      ) => priceIncreasePercentSecond - priceIncreasePercentFirst
     );
