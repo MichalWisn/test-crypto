@@ -26,7 +26,7 @@ export const fetchCoinData = async (
   }
 };
 
-const parseResponse = (
+export const parseResponse = (
   data: ApiResponse,
   cryptocurrencies: string[],
   fiatCurrencies: string[]
