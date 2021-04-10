@@ -1,8 +1,14 @@
 import { Dispatch, SetStateAction } from "react";
 import axios from "axios";
+import {
+  GridCellValue,
+  GridColumns,
+  GridRowModel,
+  GridValueGetterParams,
+} from "@material-ui/data-grid";
 
 import { CoinsData, ApiResponse, CoinStats } from "./types";
-import { API_URL } from "./consts";
+import { API_URL, CURRENCY_SYMBOLS } from "./consts";
 
 export const fetchCoinData = async (
   setData: Dispatch<SetStateAction<CoinsData>>,
@@ -50,3 +56,59 @@ const parseResponse = (
   });
   return coinData;
 };
+
+export const createColumns = (currency: string): GridColumns => {
+  if (!CURRENCY_SYMBOLS[currency]) {
+    throw new Error(`No symbol for ${currency}!`);
+  }
+  return [
+    { field: "symbol", headerName: "Symbol", width: 160 },
+    {
+      field: "openingPrice",
+      headerName: `Opening Price (${currency})`,
+      width: 200,
+      // decorate value with symbol
+      valueGetter: (params: GridValueGetterParams) => {
+        return `${CURRENCY_SYMBOLS[currency]}${params.value}`;
+      },
+      // needed to properly sort by values
+      sortComparator: (v1: GridCellValue, v2: GridCellValue) =>
+        (v2 as number) - (v1 as number),
+    },
+    {
+      field: "currentPrice",
+      headerName: `Current Price (${currency})`,
+      width: 200,
+      valueGetter: (params: GridValueGetterParams) => {
+        return `${CURRENCY_SYMBOLS[currency]}${params.value}`;
+      },
+      sortComparator: (v1: GridCellValue, v2: GridCellValue) =>
+        (v2 as number) - (v1 as number),
+    },
+    {
+      field: "priceIncreasePercent",
+      headerName: "Price Increase %",
+      width: 200,
+      valueGetter: (params: GridValueGetterParams) => {
+        return `${params.value}% (${CURRENCY_SYMBOLS[currency]}${params.row.priceIncrease})`;
+      },
+      sortComparator: (v1: GridCellValue, v2: GridCellValue) =>
+        (v2 as number) - (v1 as number),
+    },
+  ];
+}
+
+export const createRows = (data: CoinStats): GridRowModel[] =>
+  Object.entries(data)
+    .map(([symbol, stats]) => ({
+      id: symbol, // required by DataGrid
+      symbol,
+      ...stats,
+    }))
+    // default sort by price (increasing)
+    .sort(
+      (
+        { currentPrice: currentPriceFirst },
+        { currentPrice: currentPriceSecond }
+      ) => currentPriceSecond - currentPriceFirst
+    );

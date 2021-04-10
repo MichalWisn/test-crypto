@@ -16,3 +16,12 @@ export const CRYPTOCURRENCIES = [
 ];
 
 export const REAL_CURRENCIES = ["USD", "EUR", "GBP", "PLN"];
+
+export const CURRENCY_SYMBOLS: {
+  [name: string]: string;
+} = {
+  USD: "$",
+  EUR: "€",
+  GBP: "£",
+  PLN: "zł",
+};

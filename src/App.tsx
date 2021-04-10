@@ -1,19 +1,19 @@
-import React from 'react';
+import React from "react";
 
-import { CoinsData } from './types';
-import { fetchCoinData } from './utils';
-import { CRYPTOCURRENCIES, REAL_CURRENCIES } from './consts';
+import { CoinsData } from "./types";
+import { fetchCoinData } from "./utils";
+import { CRYPTOCURRENCIES, REAL_CURRENCIES } from "./consts";
 
-import CurrencySelector from './components/CurrencySelector';
+import CurrencySelector from "./components/CurrencySelector";
+import Datagrid from "./components/Datagrid";
 
 function App() {
   const [coinData, setCoinData] = React.useState<CoinsData>({});
-  const [currency, setCurrency] = React.useState<string>('EUR');
+  const [currency, setCurrency] = React.useState<string>("EUR");
   React.useEffect(() => {
     fetchCoinData(setCoinData, CRYPTOCURRENCIES, REAL_CURRENCIES);
   }, []);
 
-  console.log('coin data', coinData[currency])
   return (
     <div>
       <CurrencySelector
@@ -21,7 +21,7 @@ function App() {
         setCurrency={setCurrency}
         availableCurrencies={REAL_CURRENCIES}
       />
-      <p>datagrid placeholder</p>
+      <Datagrid data={coinData[currency]} currency={currency} />
     </div>
   );
 }
