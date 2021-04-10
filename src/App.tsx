@@ -1,24 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import { CoinsData } from './types';
+import { fetchCoinData } from './utils';
+import { CRYPTOCURRENCIES, REAL_CURRENCIES } from './consts';
 
 function App() {
+  const [coinData, setCoinData] = React.useState<CoinsData>({});
+  React.useEffect(() => {
+    fetchCoinData(setCoinData, CRYPTOCURRENCIES, REAL_CURRENCIES);
+  }, []);
+
+  console.log('coin data', coinData)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>currencyselect placeholder</p>
+      <p>datagrid placeholder</p>
     </div>
   );
 }
